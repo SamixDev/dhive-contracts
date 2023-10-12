@@ -23,7 +23,7 @@ contract Dhive_Posts is Storage {
     }
 
     /*//////////////////////////////////////////////////////////////
-                                 EXTERNAL
+                                 PUBLIC
     //////////////////////////////////////////////////////////////*/
     function createCommunity(string memory community) public onlyOwner {
         require(bytes(community).length > 0, "Community must not be empty");
@@ -34,6 +34,25 @@ contract Dhive_Posts is Storage {
         } else {
             revert("Community already exists");
         }
+    }
+
+    function createPost(string memory content, string memory community) public {
+        require(bytes(content).length > 0, "Content must not be empty");
+        require(bytes(community).length > 0, "Community must not be empty");
+        require(isCommunityExists(community), "Community does not exist");
+
+        Post memory newPost = Post({
+            owner: msg.sender,
+            content: content,
+            creationTime: block.timestamp,
+            community: community
+        });
+        uint256 postId = posts.length;
+        posts.push(newPost);
+
+        communityPosts[community].push(postId);
+
+        emit Events.PostCreated(postId, msg.sender, content, community);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -60,5 +79,24 @@ contract Dhive_Posts is Storage {
 
     function getCommunityCount() public view returns (uint256) {
         return communities.length;
+    }
+
+    function getCommunityPosts(
+        string memory community
+    ) public view returns (uint256[] memory) {
+        return communityPosts[community];
+    }
+
+    function getPostCount() public view returns (uint256) {
+        return posts.length;
+    }
+
+    function getPost(
+        uint256 postId
+    ) public view returns (address, string memory, uint256, string memory) {
+        require(postId < posts.length, "Invalid post ID");
+
+        Post memory post = posts[postId];
+        return (post.owner, post.content, post.creationTime, post.community);
     }
 }
