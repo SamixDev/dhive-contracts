@@ -1,0 +1,3 @@
+[submodule "dhive/lib/forge-std"]
+	path = dhive/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
