@@ -2,8 +2,6 @@
 pragma solidity ^0.8.13;
 
 import {Test} from "forge-std/Test.sol";
-import "forge-std/console.sol";
-import "forge-std/console2.sol";
 import {Dhive_Posts} from "../src/Dhive_Posts.sol";
 
 contract Dhive_Posts_Test is Test {

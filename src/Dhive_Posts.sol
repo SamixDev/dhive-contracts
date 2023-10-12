@@ -1,34 +1,44 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract Dhive_Posts {
-    address public owner;
+import {Events} from "./Events.sol";
+import {Storage} from "./Storage.sol";
 
-    string[] public communities;
-
-    event CommunityCreated(string communityName);
-
+contract Dhive_Posts is Storage {
+    /*//////////////////////////////////////////////////////////////
+                                 CONSTRUCTOR
+    //////////////////////////////////////////////////////////////*/
     constructor() {
         owner = msg.sender;
         // Initialize with default community
         createCommunity("apecoin.eth");
     }
 
+    /*//////////////////////////////////////////////////////////////
+                              MODIFIERS
+    //////////////////////////////////////////////////////////////*/
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function");
         _;
     }
 
+    /*//////////////////////////////////////////////////////////////
+                                 EXTERNAL
+    //////////////////////////////////////////////////////////////*/
     function createCommunity(string memory community) public onlyOwner {
         require(bytes(community).length > 0, "Community must not be empty");
 
         if (!isCommunityExists(community)) {
             communities.push(community);
-            emit CommunityCreated(community);
+            emit Events.CommunityCreated(community);
         } else {
             revert("Community already exists");
         }
     }
+
+    /*//////////////////////////////////////////////////////////////
+                              INTERNAL
+    //////////////////////////////////////////////////////////////*/
 
     function isCommunityExists(
         string memory community
