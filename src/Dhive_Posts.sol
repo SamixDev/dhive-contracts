@@ -53,4 +53,12 @@ contract Dhive_Posts is Storage {
         }
         return false;
     }
+
+    /*//////////////////////////////////////////////////////////////
+                              PUBLIC
+    //////////////////////////////////////////////////////////////*/
+
+    function getCommunityCount() public view returns (uint256) {
+        return communities.length;
+    }
 }
