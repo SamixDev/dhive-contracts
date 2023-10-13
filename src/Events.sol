@@ -12,4 +12,10 @@ library Events {
         string community
     );
     event PostUpvoted(uint256 postId, address upvoter);
+    event CommentAdded(
+        uint256 commentId,
+        address owner,
+        string content,
+        uint256 postId
+    );
 }

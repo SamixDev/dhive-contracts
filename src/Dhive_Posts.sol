@@ -66,6 +66,23 @@ contract Dhive_Posts is Storage {
         emit Events.PostUpvoted(postId, msg.sender);
     }
 
+    function addComment(uint256 postId, string memory content) public {
+        require(postId < posts.length, "Invalid post ID");
+        require(bytes(content).length > 0, "Content must not be empty");
+
+        Comment memory newComment = Comment({
+            owner: msg.sender,
+            content: content,
+            creationTime: block.timestamp,
+            postId: postId
+        });
+
+        uint256 commentId = comments.length;
+        comments.push(newComment);
+
+        emit Events.CommentAdded(commentId, msg.sender, content, postId);
+    }
+
     /*//////////////////////////////////////////////////////////////
                               INTERNAL
     //////////////////////////////////////////////////////////////*/
@@ -85,7 +102,7 @@ contract Dhive_Posts is Storage {
     }
 
     /*//////////////////////////////////////////////////////////////
-                              PUBLIC
+                            PUBLIC VIEW
     //////////////////////////////////////////////////////////////*/
 
     function getCommunityCount() public view returns (uint256) {
@@ -119,5 +136,40 @@ contract Dhive_Posts is Storage {
             post.upvotes,
             post.community
         );
+    }
+
+    function getCommentCount(uint256 postId) public view returns (uint256) {
+        require(postId < posts.length, "Invalid post ID");
+
+        uint256 commentCount = 0;
+        for (uint256 i = 0; i < comments.length; i++) {
+            if (comments[i].postId == postId) {
+                commentCount++;
+            }
+        }
+        return commentCount;
+    }
+
+    function getComment(
+        uint256 postId,
+        uint256 commentIndex
+    ) public view returns (address, string memory, uint256) {
+        require(postId < posts.length, "Invalid post ID");
+
+        uint256 commentCount = 0;
+        for (uint256 i = 0; i < comments.length; i++) {
+            if (comments[i].postId == postId) {
+                if (commentCount == commentIndex) {
+                    Comment memory comment = comments[i];
+                    return (
+                        comment.owner,
+                        comment.content,
+                        comment.creationTime
+                    );
+                }
+                commentCount++;
+            }
+        }
+        revert("Invalid comment index");
     }
 }

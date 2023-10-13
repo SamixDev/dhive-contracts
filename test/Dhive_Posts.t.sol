@@ -122,4 +122,46 @@ contract Dhive_Posts_Test is Test {
         vm.prank(alice);
         dhive_Posts.upvotePost(postId);
     }
+
+    /*//////////////////////////////////////////////////////////////
+                            TEST POST COMMENT
+    //////////////////////////////////////////////////////////////*/
+
+    // test commentPost function with empty content
+    function test_commentPostEmptyContent(
+        string memory content,
+        uint256 postId
+    ) public {
+        dhive_Posts.createPost("test", "apecoin.eth");
+        vm.prank(alice);
+        vm.expectRevert("Content must not be empty");
+        content = "";
+        postId = 0;
+        dhive_Posts.addComment(postId, content);
+    }
+
+    // test commentPost function with invalid post ID
+    function test_commentPostInvalidPostId(
+        string memory content,
+        uint256 postId
+    ) public {
+        dhive_Posts.createPost("test", "apecoin.eth");
+        vm.prank(alice);
+        vm.expectRevert("Invalid post ID");
+        content = "test";
+        postId = 100;
+        dhive_Posts.addComment(postId, content);
+    }
+
+    // test commentPost function with valid post ID
+    function test_commentPostValidPostId(
+        string memory content,
+        uint256 postId
+    ) public {
+        dhive_Posts.createPost("test", "apecoin.eth");
+        vm.prank(alice);
+        content = "test";
+        postId = 0;
+        dhive_Posts.addComment(postId, content);
+    }
 }
