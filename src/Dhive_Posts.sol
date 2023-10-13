@@ -11,7 +11,7 @@ contract Dhive_Posts is Storage {
     constructor() {
         owner = msg.sender;
         // Initialize with default community
-        createCommunity("apecoin.eth");
+        createCommunity("dhive_test");
     }
 
     /*//////////////////////////////////////////////////////////////

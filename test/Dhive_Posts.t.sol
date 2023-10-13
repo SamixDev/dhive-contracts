@@ -36,7 +36,7 @@ contract Dhive_Posts_Test is Test {
         string memory community
     ) public {
         vm.expectRevert("Community already exists");
-        community = "apecoin.eth";
+        community = "dhive_test";
         dhive_Posts.createCommunity(community);
     }
 
@@ -57,7 +57,7 @@ contract Dhive_Posts_Test is Test {
     ) public {
         vm.expectRevert("Content must not be empty");
         content = "";
-        community = "apecoin.eth";
+        community = "dhive_test";
         dhive_Posts.createPost(content, community);
     }
 
@@ -89,7 +89,7 @@ contract Dhive_Posts_Test is Test {
         string memory community
     ) public {
         content = "test";
-        community = "apecoin.eth";
+        community = "dhive_test";
         dhive_Posts.createPost(content, community);
     }
 
@@ -106,7 +106,7 @@ contract Dhive_Posts_Test is Test {
 
     // test upvotePost twice with valid post ID
     function test_upvotePostTwiceValidPostId(uint256 postId) public {
-        dhive_Posts.createPost("test", "apecoin.eth");
+        dhive_Posts.createPost("test", "dhive_test");
         postId = 0;
         vm.prank(alice);
         dhive_Posts.upvotePost(postId);
@@ -117,7 +117,7 @@ contract Dhive_Posts_Test is Test {
 
     // test upvotePost function with valid post ID
     function test_upvotePostValidPostId(uint256 postId) public {
-        dhive_Posts.createPost("test", "apecoin.eth");
+        dhive_Posts.createPost("test", "dhive_test");
         postId = 0;
         vm.prank(alice);
         dhive_Posts.upvotePost(postId);
@@ -132,7 +132,7 @@ contract Dhive_Posts_Test is Test {
         string memory content,
         uint256 postId
     ) public {
-        dhive_Posts.createPost("test", "apecoin.eth");
+        dhive_Posts.createPost("test", "dhive_test");
         vm.prank(alice);
         vm.expectRevert("Content must not be empty");
         content = "";
@@ -145,7 +145,7 @@ contract Dhive_Posts_Test is Test {
         string memory content,
         uint256 postId
     ) public {
-        dhive_Posts.createPost("test", "apecoin.eth");
+        dhive_Posts.createPost("test", "dhive_test");
         vm.prank(alice);
         vm.expectRevert("Invalid post ID");
         content = "test";
@@ -158,7 +158,7 @@ contract Dhive_Posts_Test is Test {
         string memory content,
         uint256 postId
     ) public {
-        dhive_Posts.createPost("test", "apecoin.eth");
+        dhive_Posts.createPost("test", "dhive_test");
         vm.prank(alice);
         content = "test";
         postId = 0;
