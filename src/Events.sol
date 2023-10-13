@@ -11,4 +11,5 @@ library Events {
         string content,
         string community
     );
+    event PostUpvoted(uint256 postId, address upvoter);
 }

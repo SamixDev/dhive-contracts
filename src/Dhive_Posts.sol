@@ -45,6 +45,7 @@ contract Dhive_Posts is Storage {
             owner: msg.sender,
             content: content,
             creationTime: block.timestamp,
+            upvotes: 0,
             community: community
         });
         uint256 postId = posts.length;
@@ -53,6 +54,16 @@ contract Dhive_Posts is Storage {
         communityPosts[community].push(postId);
 
         emit Events.PostCreated(postId, msg.sender, content, community);
+    }
+
+    function upvotePost(uint256 postId) public {
+        require(postId < posts.length, "Invalid post ID");
+        require(!postUpvotedBy[postId][msg.sender], "Post already upvoted");
+
+        posts[postId].upvotes += 1;
+        postUpvotedBy[postId][msg.sender] = true;
+
+        emit Events.PostUpvoted(postId, msg.sender);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -93,10 +104,20 @@ contract Dhive_Posts is Storage {
 
     function getPost(
         uint256 postId
-    ) public view returns (address, string memory, uint256, string memory) {
+    )
+        public
+        view
+        returns (address, string memory, uint256, uint256, string memory)
+    {
         require(postId < posts.length, "Invalid post ID");
 
         Post memory post = posts[postId];
-        return (post.owner, post.content, post.creationTime, post.community);
+        return (
+            post.owner,
+            post.content,
+            post.creationTime,
+            post.upvotes,
+            post.community
+        );
     }
 }

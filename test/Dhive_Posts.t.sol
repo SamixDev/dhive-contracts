@@ -92,4 +92,34 @@ contract Dhive_Posts_Test is Test {
         community = "apecoin.eth";
         dhive_Posts.createPost(content, community);
     }
+
+    /*//////////////////////////////////////////////////////////////
+                             TEST POST UPVOTE
+    //////////////////////////////////////////////////////////////*/
+
+    // test upvotePost function with invalid post ID
+    function test_upvotePostInvalidPostId(uint256 postId) public {
+        vm.expectRevert("Invalid post ID");
+        postId = 100;
+        dhive_Posts.upvotePost(postId);
+    }
+
+    // test upvotePost twice with valid post ID
+    function test_upvotePostTwiceValidPostId(uint256 postId) public {
+        dhive_Posts.createPost("test", "apecoin.eth");
+        postId = 0;
+        vm.prank(alice);
+        dhive_Posts.upvotePost(postId);
+        vm.expectRevert("Post already upvoted");
+        vm.prank(alice);
+        dhive_Posts.upvotePost(postId);
+    }
+
+    // test upvotePost function with valid post ID
+    function test_upvotePostValidPostId(uint256 postId) public {
+        dhive_Posts.createPost("test", "apecoin.eth");
+        postId = 0;
+        vm.prank(alice);
+        dhive_Posts.upvotePost(postId);
+    }
 }
