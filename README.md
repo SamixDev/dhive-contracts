@@ -1,13 +1,6 @@
-## Foundry
+## dhive Posts Contracts
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+**dhive is an all-in-one hub for tracking, connecting, and staying informed about the latest projects, governance developments, and peer discussions, all with personalized notifications to keep you ahead of the curve.**
 
 ## Documentation
 
