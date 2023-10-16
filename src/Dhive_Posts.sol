@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {Events} from "./Events.sol";
 import {Storage} from "./Storage.sol";
 
-contract Dhive_Posts is Storage {
+contract DhivePosts is Storage {
     /*//////////////////////////////////////////////////////////////
                                  CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
@@ -53,7 +53,13 @@ contract Dhive_Posts is Storage {
 
         communityPosts[community].push(postId);
 
-        emit Events.PostCreated(postId, msg.sender, content, community);
+        emit Events.PostCreated(
+            postId,
+            msg.sender,
+            content,
+            community,
+            block.timestamp
+        );
     }
 
     function upvotePost(uint256 postId) public {
@@ -80,7 +86,13 @@ contract Dhive_Posts is Storage {
         uint256 commentId = comments.length;
         comments.push(newComment);
 
-        emit Events.CommentAdded(commentId, msg.sender, content, postId);
+        emit Events.CommentAdded(
+            commentId,
+            msg.sender,
+            content,
+            postId,
+            block.timestamp
+        );
     }
 
     /*//////////////////////////////////////////////////////////////
